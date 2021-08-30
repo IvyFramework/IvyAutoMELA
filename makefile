@@ -123,10 +123,6 @@ clean:
 	rm -f $(RUNDIR)*.d
 	rm -f $(RUNDIR)*.pcm
 	rm -f $(RUNDIR)*.pyc
-	rm -f $(RUNDIR)MergeLHEFiles
-	rm -f $(RUNDIR)CheckFileIntegrity
-	rm -f $(RUNDIR)SplitROOTFiles
-	rm -f $(RUNDIR)ExecuteCompiledCommand
 	rm -rf $(TESTDIR)Pdfdata
 	rm -f $(TESTDIR)input.DAT
 	rm -f $(TESTDIR)process.DAT
