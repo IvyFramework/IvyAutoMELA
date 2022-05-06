@@ -8,7 +8,7 @@ all:
 else
 
 
-PROJECTNAME          = IvyFrameWork
+PROJECTNAME          = IvyFramework
 PACKAGENAME          = IvyAutoMELA
 
 COMPILEPATH          = $(PWD)/
