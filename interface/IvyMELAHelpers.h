@@ -19,7 +19,7 @@ namespace IvyMELAHelpers{
   TVar::VerbosityLevel convertVerbosity_IvyToMELA(MiscUtils::VerbosityLevel verb_);
   MiscUtils::VerbosityLevel convertVerbosity_MELAToIvy(TVar::VerbosityLevel verb_);
 
-  int getSqrts(int year);
+  double getSqrts(int year);
   void setupMela(int year, float mh, TVar::VerbosityLevel verbosity);
   void setupMela(int year, float mh, MiscUtils::VerbosityLevel verbosity){ setupMela(year, mh, convertVerbosity_IvyToMELA(verbosity)); }
   void clearMela();
