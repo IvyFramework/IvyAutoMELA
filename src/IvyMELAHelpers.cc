@@ -13,7 +13,7 @@ namespace IvyMELAHelpers{
   TVar::VerbosityLevel convertVerbosity_IvyToMELA(MiscUtils::VerbosityLevel verb_){ return static_cast<TVar::VerbosityLevel>(static_cast<int>(verb_)); }
   MiscUtils::VerbosityLevel convertVerbosity_MELAToIvy(TVar::VerbosityLevel verb_){ return static_cast<MiscUtils::VerbosityLevel>(static_cast<int>(verb_)); }
 
-  int getSqrts(int year){
+  double getSqrts(int year){
     switch (year){
     case 2011:
       return 7;
@@ -24,12 +24,14 @@ namespace IvyMELAHelpers{
     case 2017:
     case 2018:
       return 13;
+    case 2022:
+      return 13.6;
     default:
       return -1;
     }
   }
   void setupMela(int year, float mh, TVar::VerbosityLevel verbosity){
-    int sqrts = getSqrts(year);
+    double sqrts = getSqrts(year);
     if (!melaHandle && sqrts>0 && mh>=0.f) melaHandle = make_shared<Mela>(sqrts, mh, verbosity);
   }
   void clearMela(){ melaHandle.reset((Mela*) nullptr); }
