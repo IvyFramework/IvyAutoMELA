@@ -38,23 +38,9 @@ if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]]; then
 fi
 
 printenv() {
-  # Print the environment variables from MELA as well if they are needed.
-  if [[ -d ../../JHUGenMELA ]]; then
-    envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
-    ../../JHUGenMELA/setup.sh ${envopts}
-    eval $(../../JHUGenMELA/setup.sh ${envopts})
-  fi
-  if [[ -d ../../MelaAnalytics ]]; then
-    envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
-    ../../MelaAnalytics/setup.sh ${envopts}
-    eval $(../../MelaAnalytics/setup.sh ${envopts})
-  fi
+  ../../MelaAnalytics/setup.sh env
+  eval $(../../MelaAnalytics/setup.sh env)
+
   if [[ -d ../IvyDataTools ]]; then
     envopts="env"
     if [[ ${forceStandalone} -eq 1 ]]; then
@@ -78,21 +64,8 @@ printenv() {
   fi
 }
 doenv() {
-  # Set up the environment variables from MELA as well if they are needed.
-  if [[ -d ../../JHUGenMELA ]]; then
-    envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
-    eval $(../../JHUGenMELA/setup.sh ${envopts})
-  fi
-  if [[ -d ../../MelaAnalytics ]]; then
-    envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
-    eval $(../../MelaAnalytics/setup.sh ${envopts})
-  fi
+  eval $(../../MelaAnalytics/setup.sh env)
+
   if [[ -d ../IvyDataTools ]]; then
     envopts="env"
     if [[ ${forceStandalone} -eq 1 ]]; then
@@ -110,16 +83,21 @@ printenvinstr () {
     return 0
   fi
 
+  envopts="env"
+  if [[ ${forceStandalone} -eq 1 ]]; then
+    envopts="${envopts} standalone"
+  fi
+
   echo
   echo "remember to do"
   echo
-  echo 'eval $(./setup.sh env standalone)'
+  echo 'eval $('${BASH_SOURCE[0]}' '${envopts}')'
   echo "or"
-  echo 'eval `./setup.sh env standalone`'
+  echo 'eval `'${BASH_SOURCE[0]}' '${envopts}'`'
   echo
   echo "if you are using a bash-related shell, or you can do"
   echo
-  echo './setup.sh env standalone'
+  echo ${BASH_SOURCE[0]}' '${envopts}
   echo
   echo "and change the commands according to your shell in order to do something equivalent to set up the environment variables."
   echo

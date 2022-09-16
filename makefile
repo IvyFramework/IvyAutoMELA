@@ -26,22 +26,22 @@ LIBSHORT             = $(PROJECTNAME)$(PACKAGENAME)
 LIB                  = lib$(LIBSHORT).so
 LIBRULE              = $(LIBDIR)$(LIB)
 
-MELADIR              = $(BASEINCLUDE)JHUGenMELA/MELA/
-MELALIBDIR           = $(MELADIR)data/${SCRAM_ARCH}
+MELADIR              = ${MELA_LIB_PATH}/../../
+MELALIBDIR           = ${MELA_LIB_PATH}/
 MELACXXFLAGS =  -I$(MELADIR)interface/ -L$(MELALIBDIR)
 MELALIBS =  -lJHUGenMELAMELA
 
-MELAANACLOCDIR              = $(BASEINCLUDE)MelaAnalytics/CandidateLOCaster/
+MELAANACLOCDIR              = ${MELAANALYTICS_PATH}/CandidateLOCaster/
 MELAANACLOCLIBDIR           = $(MELAANACLOCDIR)lib
 MELAANACLOCCXXFLAGS =  -I$(MELAANACLOCDIR)interface/ -L$(MELAANACLOCLIBDIR)
 MELAANACLOCLIBS =  -lMelaAnalyticsCandidateLOCaster
 
-MELAANAEVTCDIR              = $(BASEINCLUDE)MelaAnalytics/EventContainer/
+MELAANAEVTCDIR              = ${MELAANALYTICS_PATH}/EventContainer/
 MELAANAEVTCLIBDIR           = $(MELAANAEVTCDIR)lib
 MELAANAEVTCCXXFLAGS =  -I$(MELAANAEVTCDIR)interface/ -L$(MELAANAEVTCLIBDIR)
 MELAANAEVTCLIBS =  -lMelaAnalyticsEventContainer
 
-MELAANAGMECDIR              = $(BASEINCLUDE)MelaAnalytics/GenericMEComputer/
+MELAANAGMECDIR              = ${MELAANALYTICS_PATH}/GenericMEComputer/
 MELAANAGMECLIBDIR           = $(MELAANAGMECDIR)lib
 MELAANAGMECCXXFLAGS =  -I$(MELAANAGMECDIR)interface/ -L$(MELAANAGMECLIBDIR)
 MELAANAGMECLIBS =  -lMelaAnalyticsGenericMEComputer
