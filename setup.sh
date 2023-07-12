@@ -7,18 +7,14 @@ set -euo pipefail
 cd $(dirname ${BASH_SOURCE[0]})
 
 PKGDIR="$(readlink -f .)"
-declare -i forceStandalone=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
-declare -i usingCMSSW=0
 declare -i needROOFITSYS_ROOTSYS=0
 declare -a setupArgs=()
 
 for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
-  if [[ "$fargl" == "standalone" ]]; then
-    forceStandalone=1
-  elif [[ "$fargl" == "env" ]]; then
+  if [[ "$fargl" == "env" ]]; then
     doPrintEnv=1
   elif [[ "$fargl" == "envinstr" ]]; then
     doPrintEnvInstr=1
@@ -29,29 +25,14 @@ done
 declare -i nSetupArgs
 nSetupArgs=${#setupArgs[@]}
 
-if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]]; then
-
-  usingCMSSW=1
-
-  eval $(scram ru -sh)
-
-fi
-
 printenv() {
   ../../MelaAnalytics/setup.sh env
   eval $(../../MelaAnalytics/setup.sh env)
 
   if [[ -d ../IvyDataTools ]]; then
     envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
     ../IvyDataTools/setup.sh ${envopts}
     eval $(../IvyDataTools/setup.sh ${envopts})
-  fi
-
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
   fi
 
   libappend="${PKGDIR}/lib"
@@ -68,25 +49,11 @@ doenv() {
 
   if [[ -d ../IvyDataTools ]]; then
     envopts="env"
-    if [[ ${forceStandalone} -eq 1 ]]; then
-      envopts="${envopts} standalone"
-    fi
     eval $(../IvyDataTools/setup.sh ${envopts})
-  fi
-
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
   fi
 }
 printenvinstr () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
-  fi
-
   envopts="env"
-  if [[ ${forceStandalone} -eq 1 ]]; then
-    envopts="${envopts} standalone"
-  fi
 
   echo
   echo "remember to do"
@@ -118,12 +85,7 @@ fi
 
 
 if [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
-    if [[ ${usingCMSSW} -eq 1 ]];then
-      scramv1 b "${setupArgs[@]}"
-    else
-      make clean
-    fi
-
+    make clean
     exit $?
 elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
     : ok
@@ -136,12 +98,7 @@ fi
 
 doenv
 
-if [[ ${usingCMSSW} -eq 1 ]]; then
-  scramv1 b "${setupArgs[@]}"
-else
-  make "${setupArgs[@]}"
-fi
-
+make "${setupArgs[@]}"
 compile_status=$?
 if [[ ${compile_status} -ne 0 ]]; then
   echo "Compilation failed with status ${compile_status}."
